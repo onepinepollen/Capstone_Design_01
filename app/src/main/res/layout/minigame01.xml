@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".minigame01">
 
     <!--
         constraintTop_toTopOf = "parent" -> 세로의 중앙 배치
@@ -25,7 +25,8 @@
         app:layout_constraintDimensionRatio="1"
         android:src="@drawable/roulette_menu"
         android:clickable="true"
-        android:onClick="rotate" />
+        android:onClick="rotate"
+        android:contentDescription="룰렛"/>
 
     <ImageView
         android:layout_width="0dp"
@@ -40,3 +41,5 @@
         android:src="@drawable/needle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--*그림들은 인터넷에서 대충 가져온거라 나중에 수정해야함!-->
