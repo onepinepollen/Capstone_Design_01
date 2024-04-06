@@ -28,6 +28,12 @@
             android:name=".TlistActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".minigame01">
+        </activity>
+        <activity
+            android:name=".minigameMain">
+        </activity>
     </application>
 
 </manifest>
