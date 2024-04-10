@@ -12,13 +12,23 @@ public class minigameMain extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.minigame_main);
 
-        Button button = findViewById(R.id.rouletteButton);
+        Button roulettebutton = findViewById(R.id.rouletteButton);
+        Button bottlebutton = findViewById(R.id.bottleButton);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        roulettebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //화면전환
                 Intent intent = new Intent(minigameMain.this, minigame01.class);
+                startActivity(intent);
+            }
+        });
+
+        bottlebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //화면전환
+                Intent intent = new Intent(minigameMain.this, minigame02.class);
                 startActivity(intent);
             }
         });
