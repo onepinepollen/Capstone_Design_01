@@ -25,6 +25,7 @@ public class TlistActivity extends AppCompatActivity {
 
         LinearLayout scrollVL = findViewById(R.id.scrollViewLayout);
         Button btn1 = findViewById(R.id.button3);
+        Button btn2 = findViewById(R.id.button);
 
         // 버튼 클릭 이벤트 리스너 설정
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -76,9 +77,19 @@ public class TlistActivity extends AppCompatActivity {
                     }
                 });
 
+
+
                 // 다이얼로그를 생성하고 표시합니다.
                 AlertDialog dialog = builder.create();
                 dialog.show();
+            }
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TlistActivity.this, Fast_Pay.class);
+                startActivity(intent);
             }
         });
 

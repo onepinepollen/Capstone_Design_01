@@ -34,6 +34,10 @@
         <activity
             android:name=".minigameMain">
         </activity>
+        <activity
+            android:name="Fast_Pay"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
