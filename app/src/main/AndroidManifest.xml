@@ -41,6 +41,10 @@
             android:name="Fast_Pay"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".Team_pay"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

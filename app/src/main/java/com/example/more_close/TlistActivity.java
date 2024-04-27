@@ -108,7 +108,8 @@ public class TlistActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     // 임시문구 나중에 해당 모임 화면으로 넘어갈 예정입니다.
-                                    Toast.makeText(TlistActivity.this, "모임 버튼이 클릭되었습니다.", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(TlistActivity.this, Team_pay.class);
+                                    startActivity(intent);
                                 }
                             });
 
