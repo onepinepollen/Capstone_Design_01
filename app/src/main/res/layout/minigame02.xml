@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".minigame01">
+    tools:context=".minigame02">
 
     <!--
         constraintTop_toTopOf = "parent" -> 세로의 중앙 배치
@@ -23,7 +23,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintWidth_percent="0.9"
         app:layout_constraintDimensionRatio="1"
-        android:src="@drawable/bottle"
+        android:src="@drawable/minigame2"
         android:clickable="true"
         android:onClick="rotate"
         android:contentDescription="룰렛"/>
