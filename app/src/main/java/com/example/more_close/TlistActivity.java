@@ -14,12 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TlistActivity extends AppCompatActivity {
+
+    private TeamData teamdata;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,13 +35,66 @@ public class TlistActivity extends AppCompatActivity {
         Button btn1 = findViewById(R.id.button3);
         Button btn2 = findViewById(R.id.button);
 
+        teamdata = new TeamData(this);
+        teamdata.open();
+        List<Team> teamList = teamdata.getAllTeams();
+
+        //db탐색 및 저장된 팀리스트 불러오기
+        if (teamList.isEmpty()){
+
+        }else{
+            for(Team team : teamList) {
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View team_btn = inflater.inflate(R.layout.team_button, null);
+                TextView text1 = team_btn.findViewById(R.id.textView8);
+                TextView text2 = team_btn.findViewById(R.id.textView10);
+                ImageButton btn_D = team_btn.findViewById(R.id.imageButton);
+
+                text1.setText(team.getName());
+                text2.setText(team.getExplanation());
+                scrollVL.addView(team_btn);
+
+                String key = team.getId();
+
+                btn_D.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(TlistActivity.this);
+                        builder1.setTitle("정말로 삭제 하시겠습니까?"); // 다이얼로그 제목 설정
+                        builder1.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                scrollVL.removeView(team_btn);
+                                teamdata.delTeams(String.valueOf(key));
+                            }
+                        });
+                        builder1.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        });
+                        AlertDialog dialog = builder1.create();
+                        builder1.show();
+                    }
+                });
+                team_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // 데이터베이스 키를 넘긴다
+                        Intent intent = new Intent(TlistActivity.this, Team_pay.class);
+                        intent.putExtra("id", String.valueOf(key));
+                        startActivity(intent);
+                    }
+                });
+            }
+        }
         // 버튼 클릭 이벤트 리스너 설정
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // AlertDialog를 생성하고 설정합니다.
                 AlertDialog.Builder builder = new AlertDialog.Builder(TlistActivity.this);
-                builder.setTitle("정보 입력"); // 다이얼로그 제목 설정
+                builder.setTitle("모임 추가"); // 다이얼로그 제목 설정
 
                 // LinearLayout을 생성합니다.
                 LinearLayout layout = new LinearLayout(TlistActivity.this);
@@ -51,8 +107,7 @@ public class TlistActivity extends AppCompatActivity {
 
                 // EditText를 생성하고 LinearLayout에 추가합니다. (인원수 입력)
                 final EditText countEditText = new EditText(TlistActivity.this);
-                countEditText.setHint("인원수를 입력하세요"); // 입력창에 힌트 설정
-                countEditText.setInputType(InputType.TYPE_CLASS_NUMBER); // 숫자만 입력 가능하도록 설정
+                countEditText.setHint("모임의 설명을 입력하세요"); // 입력창에 힌트 설정
                 layout.addView(countEditText);
 
                 // LinearLayout을 다이얼로그에 설정합니다.
@@ -62,16 +117,17 @@ public class TlistActivity extends AppCompatActivity {
                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        teamdata.open();
                         // EditText에서 입력된 값을 가져옵니다.
                         String name = nameEditText.getText().toString();
-                        String countStr = countEditText.getText().toString();
+                        String explain = countEditText.getText().toString();
 
                         // 입력된 값을 이용하여 원하는 작업을 수행합니다.
                         // 예를 들어, 입력된 정보를 TextView에 표시하거나 다른 처리를 할 수 있습니다.
 
                         // 다이얼로그를 닫습니다.
                         dialog.dismiss();
-                        if (name.isEmpty() || countStr.isEmpty()) {
+                        if (name.isEmpty() || explain.isEmpty()) {
                         } else {
                             // LayoutInflater 인스턴스 생성
                             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -82,8 +138,10 @@ public class TlistActivity extends AppCompatActivity {
                             TextView text2 = team_btn.findViewById(R.id.textView10);
                             ImageButton btn_D = team_btn.findViewById(R.id.imageButton);
                             text1.setText(name);
-                            text2.setText(countStr);
+                            text2.setText(explain);
                             scrollVL.addView(team_btn);
+                            //데이터 베이스에 내용을 추가합니다
+                            long key = teamdata.addTeams(name, explain, "");
                             btn_D.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -93,6 +151,7 @@ public class TlistActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             scrollVL.removeView(team_btn);
+                                            teamdata.delTeams(String.valueOf(key));
                                         }
                                     });
                                     builder1.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -107,12 +166,12 @@ public class TlistActivity extends AppCompatActivity {
                             team_btn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    // 임시문구 나중에 해당 모임 화면으로 넘어갈 예정입니다.
+                                    // 데이터베이스 키를 넘긴다
                                     Intent intent = new Intent(TlistActivity.this, Team_pay.class);
+                                    intent.putExtra("id", String.valueOf(key));
                                     startActivity(intent);
                                 }
                             });
-
                         }
                     }
                 });
@@ -132,7 +191,6 @@ public class TlistActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
 
