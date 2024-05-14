@@ -79,7 +79,7 @@ public class minigame05 extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final double d = Math.random() * 6;
+                final double d = Math.random() * 9;
                 clickTextView = findViewById(view.getId());
 
                 float scale = getApplicationContext().getResources().getDisplayMetrics().density;
