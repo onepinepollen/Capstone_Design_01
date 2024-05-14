@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
     <Button
@@ -15,14 +16,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/button01"
+        android:textColor="#E6C685"/>
 
     <Button
         android:id="@+id/bottleButton"
         android:layout_width="270dp"
         android:layout_height="61dp"
-        android:layout_marginBottom="512dp"
+        android:layout_marginBottom="520dp"
+        android:background="@drawable/button01"
         android:text="병돌리기"
+        android:textColor="#E6C685"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -32,8 +37,10 @@
         android:id="@+id/introduceButton"
         android:layout_width="270dp"
         android:layout_height="61dp"
-        android:layout_marginBottom="444dp"
+        android:layout_marginBottom="456dp"
+        android:background="@drawable/button01"
         android:text="아이스브레이킹"
+        android:textColor="#E6C685"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -43,19 +50,23 @@
         android:id="@+id/fivesecondButton"
         android:layout_width="270dp"
         android:layout_height="61dp"
-        android:layout_marginBottom="372dp"
+        android:layout_marginBottom="392dp"
+        android:background="@drawable/button01"
         android:text="5초준다"
+        android:textColor="#E6C685"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/cardgameButton"
         android:layout_width="270dp"
         android:layout_height="61dp"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="328dp"
+        android:background="@drawable/button01"
         android:text="뭐먹을까?"
+        android:textColor="#E6C685"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
