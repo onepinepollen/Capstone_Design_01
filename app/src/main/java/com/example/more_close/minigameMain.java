@@ -16,7 +16,7 @@ public class minigameMain extends AppCompatActivity{
         Button bottlebutton = findViewById(R.id.bottleButton);
         Button introduceButton = findViewById(R.id.introduceButton);
         Button fivesecondButton = findViewById(R.id.fivesecondButton);
-        Button ghostleggameButton = findViewById(R.id.ghostleggameButton);
+        Button cardgameButton = findViewById(R.id.cardgameButton);
 
         roulettebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +54,7 @@ public class minigameMain extends AppCompatActivity{
             }
         });
 
-        ghostleggameButton.setOnClickListener(new View.OnClickListener() {
+        cardgameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //화면전환
