@@ -6,14 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
+
 
     <Button
         android:id="@+id/startminigame"
-        android:layout_width="match_parent"
+        android:layout_width="167dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/button01"
+        android:textColor="#E6C685"
+        android:layout_marginTop="20dp"
         android:text="게임 시작하기" />
-
 
     <TextView
         android:id="@+id/textView"
@@ -24,7 +29,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#E6C685"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -36,7 +42,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="invisible"
-            app:srcCompat="@drawable/minigame5_01" />
+            app:srcCompat="@drawable/minigame4_01" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -44,7 +50,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="invisible"
-            app:srcCompat="@drawable/minigame5_02" />
+            app:srcCompat="@drawable/minigame4_02" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -52,7 +58,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="invisible"
-            app:srcCompat="@drawable/minigame5_03" />
+            app:srcCompat="@drawable/minigame4_03" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -60,7 +66,42 @@
             android:layout_height="366dp"
             android:gravity="center"
             android:visibility="invisible"
-            app:srcCompat="@drawable/minigame5_04" />
+            app:srcCompat="@drawable/minigame4_04" />
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="366dp"
+            android:gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/minigame4_05" />
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="match_parent"
+            android:layout_height="366dp"
+            android:gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/minigame4_06" />
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="match_parent"
+            android:layout_height="366dp"
+            android:gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/minigame4_07" />
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="match_parent"
+            android:layout_height="366dp"
+            android:gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/minigame4_08" />
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="match_parent"
+            android:layout_height="366dp"
+            android:gravity="center"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/minigame4_09" />
     </FrameLayout>
 
 </LinearLayout>
