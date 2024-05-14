@@ -15,7 +15,8 @@ public class minigameMain extends AppCompatActivity{
         Button roulettebutton = findViewById(R.id.rouletteButton);
         Button bottlebutton = findViewById(R.id.bottleButton);
         Button introduceButton = findViewById(R.id.introduceButton);
-        Button fivesecondButton = findViewById(R.id.fivesecond);
+        Button fivesecondButton = findViewById(R.id.fivesecondButton);
+        Button ghostleggameButton = findViewById(R.id.ghostleggameButton);
 
         roulettebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +50,15 @@ public class minigameMain extends AppCompatActivity{
             public void onClick(View view) {
                 //화면전환
                 Intent intent = new Intent(minigameMain.this, minigame04.class);
+                startActivity(intent);
+            }
+        });
+
+        ghostleggameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //화면전환
+                Intent intent = new Intent(minigameMain.this, minigame05.class);
                 startActivity(intent);
             }
         });
