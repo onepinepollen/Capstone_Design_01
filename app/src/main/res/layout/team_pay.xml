@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/textView2"
@@ -13,9 +14,11 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="14dp"
         android:text="팀이름"
+        android:textColor="@color/white"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/divider3"
         app:layout_constraintEnd_toStartOf="@+id/imageView5"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.061"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +51,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        android:background="@drawable/button01"
+        android:textColor="#E6C685"/>
 
     <EditText
         android:id="@+id/editTextTextPersonName"
@@ -59,6 +64,8 @@
         android:background="@drawable/edittext_border"
         android:ems="10"
         android:inputType="textPersonName"
+        android:paddingLeft="16dp"
+        android:textColor="@color/yellow"
         app:layout_constraintBottom_toBottomOf="@+id/button5"
         app:layout_constraintEnd_toStartOf="@+id/button5"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +81,9 @@
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        android:background="@drawable/button01"
+        android:textColor="#E6C685"/>
 
     <EditText
         android:id="@+id/editTextNumber9"
@@ -86,6 +95,8 @@
         android:background="@drawable/edittext_border"
         android:ems="10"
         android:inputType="number"
+        android:paddingLeft="16dp"
+        android:textColor="@color/yellow"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView14"
@@ -101,6 +112,8 @@
         android:background="@drawable/edittext_border"
         android:ems="10"
         android:inputType="number"
+        android:paddingLeft="16dp"
+        android:textColor="@color/yellow"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView15"
@@ -114,6 +127,8 @@
         android:background="@drawable/edittext_border"
         android:ems="10"
         android:inputType="number"
+        android:paddingLeft="16dp"
+        android:textColor="@color/yellow"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView13" />
@@ -126,6 +141,8 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="40dp"
         android:text="3차"
+        android:textColor="@color/white"
+        android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintEnd_toStartOf="@+id/editTextNumber10"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,6 +156,8 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="51dp"
         android:text="2차"
+        android:textColor="@color/white"
+        android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/textView15"
         app:layout_constraintEnd_toStartOf="@+id/editTextNumber9"
         app:layout_constraintStart_toStartOf="parent"
@@ -152,6 +171,8 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="49dp"
         android:text="1차"
+        android:textColor="@color/white"
+        android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/textView14"
         app:layout_constraintEnd_toStartOf="@+id/editTextNumber8"
         app:layout_constraintStart_toStartOf="parent"
@@ -161,6 +182,7 @@
         android:id="@+id/divider3"
         android:layout_width="440dp"
         android:layout_height="3dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="55dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/textView13"
@@ -171,11 +193,11 @@
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="28dp"
         app:layout_constraintBottom_toTopOf="@+id/divider3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.615"
+        app:layout_constraintVertical_bias="0.727"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

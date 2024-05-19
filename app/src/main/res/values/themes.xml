@@ -14,5 +14,8 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!-- 배경 리소스를 사용하도록 수정 -->
+        <!--<item name="android:fontFamily">@font/dnfforgedblade</item>-->
+        <item name="android:textColor">@color/yellow</item>
     </style>
 </resources>

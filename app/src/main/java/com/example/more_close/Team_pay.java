@@ -3,6 +3,7 @@ package com.example.more_close;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -76,22 +77,34 @@ public class Team_pay extends AppCompatActivity {
                 person.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        LayoutInflater inflater = getLayoutInflater();
+                        View normalView = inflater.inflate(R.layout.popup_nomal, null);
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
-                        builder1.setTitle("정말로 삭제 하시겠습니까?"); // 다이얼로그 제목 설정
-                        builder1.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+                        TextView popupText = normalView.findViewById(R.id.textView18);
+                        Button PositiveButton2 = normalView.findViewById(R.id.button8);
+                        Button NegativeButton2 = normalView.findViewById(R.id.button7);
+                        popupText.setText("삭제 하시겠습니까?");
+
+                        builder1.setView(normalView); // builder1에 setView를 설정합니다.
+                        AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+                        PositiveButton2.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(View view) {
                                 teamdata.updateMem_Del(key,People);
                                 scrollVL.removeView(person);
+                                dialog.dismiss(); // 다이얼로그 닫기
                             }
                         });
-                        builder1.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        NegativeButton2.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(View view) {
+                                dialog.dismiss(); // 다이얼로그 닫기
                             }
                         });
-                        AlertDialog dialog = builder1.create();
-                        builder1.show();
+
+                        dialog.show(); // 다이얼로그 표시
                     }
                 });
             }
@@ -159,22 +172,34 @@ public class Team_pay extends AppCompatActivity {
                     person.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            LayoutInflater inflater = getLayoutInflater();
+                            View normalView = inflater.inflate(R.layout.popup_nomal, null);
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
-                            builder1.setTitle("정말로 삭제 하시겠습니까?"); // 다이얼로그 제목 설정
-                            builder1.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+                            TextView popupText = normalView.findViewById(R.id.textView18);
+                            Button PositiveButton2 = normalView.findViewById(R.id.button8);
+                            Button NegativeButton2 = normalView.findViewById(R.id.button7);
+                            popupText.setText("삭제 하시겠습니까?");
+
+                            builder1.setView(normalView); // builder1에 setView를 설정합니다.
+                            AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+                            PositiveButton2.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                                public void onClick(View view) {
                                     teamdata.updateMem_Del(key,People);
                                     scrollVL.removeView(person);
+                                    dialog.dismiss(); // 다이얼로그 닫기
                                 }
                             });
-                            builder1.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            NegativeButton2.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                                public void onClick(View view) {
+                                    dialog.dismiss(); // 다이얼로그 닫기
                                 }
                             });
-                            AlertDialog dialog = builder1.create();
-                            dialog.show();
+
+                            dialog.show(); // 다이얼로그 표시
                         }
                     });
                 }
@@ -184,29 +209,28 @@ public class Team_pay extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener() { //팀명 수정 코드
             @Override
             public void onClick(View view) {
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.popup_changename, null);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(Team_pay.this);
-                builder.setTitle("모임명 수정");
 
-                // LinearLayout을 생성합니다.
-                LinearLayout layout = new LinearLayout(Team_pay.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
 
-                final EditText nameEditText = new EditText(Team_pay.this);
-                nameEditText.setHint("이름을 입력하세요");
-                layout.addView(nameEditText);
+                EditText nameEditText = dialogView.findViewById(R.id.editTextTextPersonName5);
+                nameEditText.setHint("이름을 입력하세요");;
+                Button PositiveButton = dialogView.findViewById(R.id.button9);
 
-                builder.setView(layout);
+                builder.setView(dialogView);
+                AlertDialog dialog = builder.create();
 
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                PositiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View view) {
                         String name = nameEditText.getText().toString();
                         teamdata.updateName(key,name);
                         team_name.setText(name);
+                        dialog.dismiss();
                     }
                 });
-
-                AlertDialog dialog = builder.create();
                 dialog.show();
 
             }
@@ -215,57 +239,94 @@ public class Team_pay extends AppCompatActivity {
     }
 
     private void showPeopleErrorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Team_pay.this);
-        builder.setMessage("한명 이상 선택해주세요!")
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog dialog = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View basicView = inflater.inflate(R.layout.popup_basic, null);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
+
+        TextView popupText = basicView.findViewById(R.id.textView20);
+        Button PositiveButton2 = basicView.findViewById(R.id.button01);
+        popupText.setText("한명 이상 선택해 주세요.");
+
+        builder1.setView(basicView); // builder1에 setView를 설정합니다.
+        AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+        PositiveButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss(); // 다이얼로그 닫기
+            }
+        });
         dialog.show();
     }
+
     private void showNameErrorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Team_pay.this);
-        builder.setMessage("이름을 적어주세요!")
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog dialog = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View basicView = inflater.inflate(R.layout.popup_basic, null);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
+
+        TextView popupText = basicView.findViewById(R.id.textView20);
+        Button PositiveButton2 = basicView.findViewById(R.id.button01);
+        popupText.setText("이름을 적어주세요!");
+
+        builder1.setView(basicView); // builder1에 setView를 설정합니다.
+        AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+        PositiveButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss(); // 다이얼로그 닫기
+            }
+        });
         dialog.show();
     }
+
     private void showResultDialog(int sum,int ex) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Team_pay.this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
         if(ex != 0){
-            builder.setMessage("한명당 지불한 금액은 " + sum + " 이며,\n"+ex+"가 남았습니다. \n미니게임 화면으로 넘어갈까요?")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Team_pay.this, minigameMain.class);
-                            startActivity(intent);
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+            LayoutInflater inflater = getLayoutInflater();
+            View normalView = inflater.inflate(R.layout.popup_nomal, null);
+
+            TextView popupText = normalView.findViewById(R.id.textView18);
+            Button PositiveButton2 = normalView.findViewById(R.id.button8);
+            Button NegativeButton2 = normalView.findViewById(R.id.button7);
+            popupText.setText("한명당 지불한 금액은 " + sum + " 이며,\n"+ex+"가 남았습니다. \n미니게임 화면으로 넘어갈까요?");
+
+            builder1.setView(normalView); // builder1에 setView를 설정합니다.
+            AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+            PositiveButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Team_pay.this, minigameMain.class);
+                    startActivity(intent);
+                    dialog.dismiss();
+                }
+            });
+            NegativeButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss(); // 다이얼로그 닫기
+                }
+            });
+            dialog.show();
         }else{
-            builder.setMessage("한명당 지불한 금액은 " + sum + " 입니다.")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+            LayoutInflater inflater = getLayoutInflater();
+            View basicView = inflater.inflate(R.layout.popup_basic, null);
+
+            TextView popupText = basicView.findViewById(R.id.textView20);
+            Button PositiveButton2 = basicView.findViewById(R.id.button01);
+            popupText.setText("한명당 지불한 금액은 " + sum + " 입니다.");
+
+            builder1.setView(basicView); // builder1에 setView를 설정합니다.
+            AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+            PositiveButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss(); // 다이얼로그 닫기
+                }
+            });
+            dialog.show();
         }
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 }
