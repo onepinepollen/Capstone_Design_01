@@ -3,9 +3,11 @@ package com.example.more_close;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -59,45 +61,72 @@ public class Fast_Pay extends AppCompatActivity {
     }
 
     private void showResultDialog(int sum,int ex) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Fast_Pay.this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Fast_Pay.this);
         if(ex != 0){
-            builder.setMessage("한명당 지불한 금액은 " + sum + " 이며,\n"+ex+"가 남았습니다. \n미니게임 화면으로 넘어갈까요?")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Fast_Pay.this, minigameMain.class);
-                            startActivity(intent);
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-        }else{
-            builder.setMessage("한명당 지불한 금액은 " + sum + " 입니다.")
-                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+            LayoutInflater inflater = getLayoutInflater();
+            View normalView = inflater.inflate(R.layout.popup_nomal, null);
+
+            TextView popupText = normalView.findViewById(R.id.textView18);
+            Button PositiveButton2 = normalView.findViewById(R.id.button8);
+            Button NegativeButton2 = normalView.findViewById(R.id.button7);
+            popupText.setText("한명당 지불한 금액은 " + sum + " 이며,\n"+ex+"가 남았습니다. \n미니게임 화면으로 넘어갈까요?");
+
+            builder1.setView(normalView); // builder1에 setView를 설정합니다.
+            AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+            PositiveButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Fast_Pay.this, minigameMain.class);
+                    startActivity(intent);
+                    dialog.dismiss();
+                }
+            });
+            NegativeButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss(); // 다이얼로그 닫기
+                }
+            });
+            dialog.show();
+        }else {
+            LayoutInflater inflater = getLayoutInflater();
+            View basicView = inflater.inflate(R.layout.popup_basic, null);
+
+            TextView popupText = basicView.findViewById(R.id.textView20);
+            Button PositiveButton2 = basicView.findViewById(R.id.button01);
+            popupText.setText("한명당 지불한 금액은 " + sum + " 입니다.");
+
+            builder1.setView(basicView); // builder1에 setView를 설정합니다.
+            AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+            PositiveButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss(); // 다이얼로그 닫기
+                }
+            });
+            dialog.show();
         }
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
     private void showErrorDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Fast_Pay.this);
-        builder.setMessage("인원수는 필수로 적어야하는 사항입니다!")
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog dialog = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View basicView = inflater.inflate(R.layout.popup_basic, null);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Fast_Pay.this);
+
+        TextView popupText = basicView.findViewById(R.id.textView20);
+        Button PositiveButton2 = basicView.findViewById(R.id.button01);
+        popupText.setText("인원수는 필수로 적어야하는 사항입니다!");
+
+        builder1.setView(basicView); // builder1에 setView를 설정합니다.
+        AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+        PositiveButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss(); // 다이얼로그 닫기
+            }
+        });
         dialog.show();
     }
 }

@@ -14,7 +14,13 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+<<<<<<< HEAD
         <item name="android:windowBackground">@drawable/splash</item>
+=======
+        <!-- 배경 리소스를 사용하도록 수정 -->
+        <!--<item name="android:fontFamily">@font/dnfforgedblade</item>-->
+        <item name="android:textColor">@color/yellow</item>
+>>>>>>> f14ea03dcd2946889697a66926791cdf511ea7d9
     </style>
 
 </resources>
