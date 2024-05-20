@@ -4,15 +4,17 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
-import java.util.Random;
-import android.os.CountDownTimer;
 import android.widget.TextView;
 
-public class minigame04 extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Random;
+
+public class minigame06 extends AppCompatActivity {
     Button startminigame;
     TextView textView;
 
@@ -23,8 +25,6 @@ public class minigame04 extends AppCompatActivity {
     ImageView imageView5;
     ImageView imageView6;
     ImageView imageView7;
-    ImageView imageView8;
-    ImageView imageView9;
 
     SoundPool msound;
     int index = 0;
@@ -32,7 +32,7 @@ public class minigame04 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.minigame04);
+        setContentView(R.layout.minigame06);
 
         imageView = findViewById(R.id.imageView);
         imageView2 = findViewById(R.id.imageView2);
@@ -41,9 +41,6 @@ public class minigame04 extends AppCompatActivity {
         imageView5 = findViewById(R.id.imageView5);
         imageView6 = findViewById(R.id.imageView6);
         imageView7 = findViewById(R.id.imageView7);
-        imageView8 = findViewById(R.id.imageView8);
-        imageView9 = findViewById(R.id.imageView9);
-
         startminigame = findViewById(R.id.startminigame);
 
         textView = findViewById(R.id.textView);
@@ -66,7 +63,7 @@ public class minigame04 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                CountDownTimer countDownTimer = new CountDownTimer(5000, 1000) {
+                CountDownTimer countDownTimer = new CountDownTimer(300000, 1000) {
                     public void onTick(long millisUntilFinished) {
                         int num = (int) (millisUntilFinished / 1000);
                         textView.setText(Integer.toString(num + 1));
@@ -76,9 +73,10 @@ public class minigame04 extends AppCompatActivity {
                         textView.setText("끝");
                         mSoundPool.play(mSoundId, 1.0f, 1.0f, 1, 0, 1);
                     }
+
                 }.start();
 
-                index = random.nextInt(8);
+                index = random.nextInt(6);
                 switch (index) {
                     case 0:
                         imageView.setVisibility(View.VISIBLE);
@@ -88,8 +86,7 @@ public class minigame04 extends AppCompatActivity {
                         imageView5.setVisibility(View.INVISIBLE);
                         imageView6.setVisibility(View.INVISIBLE);
                         imageView7.setVisibility(View.INVISIBLE);
-                        imageView8.setVisibility(View.INVISIBLE);
-                        imageView9.setVisibility(View.INVISIBLE);
+
 
                         break;
                     case 1:
@@ -100,8 +97,7 @@ public class minigame04 extends AppCompatActivity {
                         imageView5.setVisibility(View.INVISIBLE);
                         imageView6.setVisibility(View.INVISIBLE);
                         imageView7.setVisibility(View.INVISIBLE);
-                        imageView8.setVisibility(View.INVISIBLE);
-                        imageView9.setVisibility(View.INVISIBLE);
+
                         break;
                     case 2:
                         imageView3.setVisibility(View.VISIBLE);
@@ -111,8 +107,7 @@ public class minigame04 extends AppCompatActivity {
                         imageView5.setVisibility(View.INVISIBLE);
                         imageView6.setVisibility(View.INVISIBLE);
                         imageView7.setVisibility(View.INVISIBLE);
-                        imageView8.setVisibility(View.INVISIBLE);
-                        imageView9.setVisibility(View.INVISIBLE);
+
                         break;
                     case 3:
                         imageView4.setVisibility(View.VISIBLE);
@@ -122,8 +117,7 @@ public class minigame04 extends AppCompatActivity {
                         imageView5.setVisibility(View.INVISIBLE);
                         imageView6.setVisibility(View.INVISIBLE);
                         imageView7.setVisibility(View.INVISIBLE);
-                        imageView8.setVisibility(View.INVISIBLE);
-                        imageView9.setVisibility(View.INVISIBLE);
+
                         break;
                     case 4:
                         imageView.setVisibility(View.INVISIBLE);
@@ -133,8 +127,7 @@ public class minigame04 extends AppCompatActivity {
                         imageView5.setVisibility(View.VISIBLE);
                         imageView6.setVisibility(View.INVISIBLE);
                         imageView7.setVisibility(View.INVISIBLE);
-                        imageView8.setVisibility(View.INVISIBLE);
-                        imageView9.setVisibility(View.INVISIBLE);
+
                     case 5:
                         imageView.setVisibility(View.INVISIBLE);
                         imageView2.setVisibility(View.INVISIBLE);
@@ -143,8 +136,7 @@ public class minigame04 extends AppCompatActivity {
                         imageView5.setVisibility(View.INVISIBLE);
                         imageView6.setVisibility(View.VISIBLE);
                         imageView7.setVisibility(View.INVISIBLE);
-                        imageView8.setVisibility(View.INVISIBLE);
-                        imageView9.setVisibility(View.INVISIBLE);
+
                     case 6:
                         imageView.setVisibility(View.INVISIBLE);
                         imageView2.setVisibility(View.INVISIBLE);
@@ -153,28 +145,7 @@ public class minigame04 extends AppCompatActivity {
                         imageView5.setVisibility(View.INVISIBLE);
                         imageView6.setVisibility(View.INVISIBLE);
                         imageView7.setVisibility(View.VISIBLE);
-                        imageView8.setVisibility(View.INVISIBLE);
-                        imageView9.setVisibility(View.INVISIBLE);
-                    case 7:
-                        imageView.setVisibility(View.INVISIBLE);
-                        imageView2.setVisibility(View.INVISIBLE);
-                        imageView3.setVisibility(View.INVISIBLE);
-                        imageView4.setVisibility(View.INVISIBLE);
-                        imageView5.setVisibility(View.INVISIBLE);
-                        imageView6.setVisibility(View.INVISIBLE);
-                        imageView7.setVisibility(View.INVISIBLE);
-                        imageView8.setVisibility(View.VISIBLE);
-                        imageView9.setVisibility(View.INVISIBLE);
-                    case 8:
-                        imageView.setVisibility(View.INVISIBLE);
-                        imageView2.setVisibility(View.INVISIBLE);
-                        imageView3.setVisibility(View.INVISIBLE);
-                        imageView4.setVisibility(View.INVISIBLE);
-                        imageView5.setVisibility(View.INVISIBLE);
-                        imageView6.setVisibility(View.INVISIBLE);
-                        imageView7.setVisibility(View.INVISIBLE);
-                        imageView8.setVisibility(View.INVISIBLE);
-                        imageView9.setVisibility(View.VISIBLE);
+
 
                 }
             }

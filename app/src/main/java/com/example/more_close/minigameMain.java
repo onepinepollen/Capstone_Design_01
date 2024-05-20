@@ -17,6 +17,8 @@ public class minigameMain extends AppCompatActivity{
         Button introduceButton = findViewById(R.id.introduceButton);
         Button fivesecondButton = findViewById(R.id.fivesecondButton);
         Button cardgameButton = findViewById(R.id.cardgameButton);
+        Button banwordButton = findViewById(R.id.banwordButton);
+        Button fingerButton = findViewById(R.id.fingerButton);
 
         roulettebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +61,24 @@ public class minigameMain extends AppCompatActivity{
             public void onClick(View view) {
                 //화면전환
                 Intent intent = new Intent(minigameMain.this, minigame05.class);
+                startActivity(intent);
+            }
+        });
+
+        banwordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //화면전환
+                Intent intent = new Intent(minigameMain.this, minigame06.class);
+                startActivity(intent);
+            }
+        });
+
+        fingerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //화면전환
+                Intent intent = new Intent(minigameMain.this, minigame07.class);
                 startActivity(intent);
             }
         });
