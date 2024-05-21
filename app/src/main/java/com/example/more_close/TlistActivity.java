@@ -59,22 +59,34 @@ public class TlistActivity extends AppCompatActivity {
                 btn_D.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        LayoutInflater inflater = getLayoutInflater();
+                        View normalView = inflater.inflate(R.layout.popup_nomal, null);
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(TlistActivity.this);
-                        builder1.setTitle("정말로 삭제 하시겠습니까?"); // 다이얼로그 제목 설정
-                        builder1.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+                        TextView popupText = normalView.findViewById(R.id.textView18);
+                        Button PositiveButton2 = normalView.findViewById(R.id.button8);
+                        Button NegativeButton2 = normalView.findViewById(R.id.button7);
+                        popupText.setText("삭제 하시겠습니까?");
+
+                        builder1.setView(normalView); // builder1에 setView를 설정합니다.
+                        AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+                        PositiveButton2.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(View view) {
                                 scrollVL.removeView(team_btn);
                                 teamdata.delTeams(String.valueOf(key));
+                                dialog.dismiss(); // 다이얼로그 닫기
                             }
                         });
-                        builder1.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        NegativeButton2.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                            public void onClick(View view) {
+                                dialog.dismiss(); // 다이얼로그 닫기
                             }
                         });
-                        AlertDialog dialog = builder1.create();
-                        builder1.show();
+
+                        dialog.show(); // 다이얼로그 표시
                     }
                 });
                 team_btn.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +109,6 @@ public class TlistActivity extends AppCompatActivity {
                 View dialogView = inflater.inflate(R.layout.popup_addteam, null);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(TlistActivity.this);
-
 
                 EditText nameEditText = dialogView.findViewById(R.id.editTextTextPersonName4);
                 EditText explainEditText = dialogView.findViewById(R.id.editTextTextPersonName2);
