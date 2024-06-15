@@ -148,7 +148,7 @@ public class TlistActivity extends AppCompatActivity {
                             text2.setText(explain);
                             scrollVL.addView(team_btn);
                             //데이터 베이스에 내용을 추가합니다
-                            long key = teamdata.addTeams(name, explain, "");
+                            long key = teamdata.addTeams(name, explain);
                             btn_D.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

@@ -30,10 +30,11 @@ import java.util.Random;
 
 public class Team_pay extends AppCompatActivity {
 
-    private List<View> personViews;
     private List<View> menuViews;
+    private List<View> personViews;
     private TeamData teamdata;
     private MenuData menudata;
+    private MemberData memberdata;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,26 +71,26 @@ public class Team_pay extends AppCompatActivity {
         menudata.open();
         List<Menu> menuList = menudata.getNameMenus(team.getName());
 
-        personViews = new ArrayList<>();
+        memberdata = new MemberData(this);
+        memberdata.open();
+        List<Member> memberList = memberdata.getNameMembers(team.getName());
+
         menuViews = new ArrayList<>();
+        personViews = new ArrayList<>();
 
         //로드시 데이터 불러와 화면에 표시
         team_name.setText(team.getName());
-        if (team.getMember().isEmpty()){
+        if (memberList.isEmpty()){
             //예외처리
         }else{
-            String[] members1 = team.getMember().split(",");
-            for(String member : members1){
-                String People = member;
+            for(Member member : memberList){
                 View person = getLayoutInflater().inflate(R.layout.person_view, null);
                 TextView name1 = person.findViewById(R.id.textView11);
-                ImageView icon = person.findViewById(R.id.imageView);
+                ImageView icon = person.findViewById(R.id.imageView12);
                 Switch switch_box = person.findViewById(R.id.switch1);
 
-                name1.setText(People);
+                name1.setText(member.getMember());
                 scrollVL.addView(person);
-
-                // personViews 리스트에 해당 뷰를 추가합니다.
                 personViews.add(person);
 
                 person.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +111,7 @@ public class Team_pay extends AppCompatActivity {
                         PositiveButton2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                teamdata.updateMem_Del(key,People);
+                                memberdata.delMembers(member.getId());
                                 scrollVL.removeView(person);
                                 dialog.dismiss(); // 다이얼로그 닫기
                             }
@@ -262,7 +263,7 @@ public class Team_pay extends AppCompatActivity {
                 String People = name.getText().toString();
                 View person = getLayoutInflater().inflate(R.layout.person_view, null);
                 TextView name1 = person.findViewById(R.id.textView11);
-                ImageView icon = person.findViewById(R.id.imageView);
+                ImageView icon = person.findViewById(R.id.imageView12);
                 Switch switch_box = person.findViewById(R.id.switch1);
                 if(People.isEmpty()){
                     showNameErrorDialog();
@@ -273,7 +274,7 @@ public class Team_pay extends AppCompatActivity {
 
                     // personViews 리스트에 해당 뷰를 추가합니다.
                     personViews.add(person);
-                    teamdata.updateMem_Add(key,People);
+                    long id = memberdata.addMembers(team_name.getText().toString(),People);
 
                     person.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -293,7 +294,7 @@ public class Team_pay extends AppCompatActivity {
                             PositiveButton2.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    teamdata.updateMem_Del(key,People);
+                                    memberdata.delMembers(String.valueOf(id));
                                     scrollVL.removeView(person);
                                     dialog.dismiss(); // 다이얼로그 닫기
                                 }
@@ -334,6 +335,7 @@ public class Team_pay extends AppCompatActivity {
                         String name = nameEditText.getText().toString();
                         teamdata.updateName(key,name);
                         menudata.updateName(team_name.getText().toString(),name);
+                        memberdata.updateName(team_name.getText().toString(),name);
                         team_name.setText(name);
                         dialog.dismiss();
                     }

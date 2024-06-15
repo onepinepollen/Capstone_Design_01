@@ -1,9 +1,9 @@
 package com.example.more_close;
 
-public class Team {
+public class Member {
     private String id;
     private String name;
-    private String explanation;
+    private String member;
 
     public void setId(String a) {
         this.id = a;
@@ -17,10 +17,10 @@ public class Team {
     public String getName(){
         return name;
     }
-    public void setExplanation(String a) {
-        this.explanation = a;
+    public void setMember(String a) {
+        this.member = a;
     }
-    public String getExplanation() {
-        return explanation;
+    public String getMember(){
+        return member;
     }
 }

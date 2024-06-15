@@ -6,16 +6,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 
-public class DBHelper extends SQLiteOpenHelper {
-
+public class DBHelperMember extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "Team_DB";
-    public static final String TABLE_NAME = "Team";
+    private static final String DATABASE_NAME = "Member_DB";
+    public static final String TABLE_NAME = "Member";
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
-    public static final String KEY_EXPLANATION = "explanation";
+    public static final String KEY_MEMBER = "member";
 
-    public DBHelper(Context context) {
+    public DBHelperMember(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -24,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_NAME + " TEXT,"
-                + KEY_EXPLANATION + " TEXT" + ")";
+                + KEY_MEMBER + " TEXT" + ")";
         db.execSQL(CREATE_TABLE);
     }
 
