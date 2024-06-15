@@ -1,16 +1,23 @@
 package com.example.more_close;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +31,10 @@ public class minigame05 extends AppCompatActivity {
     private List<Integer> listNum = new ArrayList<>();
 
     int[] imagesources = {R.drawable.soju, R.drawable.soju, R.drawable.soju, R.drawable.shrimp, R.drawable.shrimp, R.drawable.shrimp, R.drawable.losingticket, R.drawable.losingticket, R.drawable.losingticket};
+
+    //공유버튼 내용 start
+    private Button shareButton;
+    //공유버튼 내용 end
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +61,16 @@ public class minigame05 extends AppCompatActivity {
                 reViewInit();
             }
         });
+
+        //공유버튼 내용 start
+        shareButton = findViewById(R.id.share_button);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareScreen();
+            }
+        });
+        //공유버튼 내용 end
     }
 
     private void textViewOnClickListener() {
@@ -109,4 +130,34 @@ public class minigame05 extends AppCompatActivity {
             }
         };
     }
+
+    //공유버튼 내용 start
+    private void shareScreen() {
+        // Capture the screen
+        View rootView = getWindow().getDecorView().getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+        rootView.setDrawingCacheEnabled(false);
+
+        try {
+            // Save the screenshot
+            File cachePath = new File(getExternalCacheDir(), "my_images/");
+            cachePath.mkdirs();
+            File file = new File(cachePath, "image.png");
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+            // Share the screenshot
+            Uri contentUri = FileProvider.getUriForFile(this, "com.example.yourapp.fileprovider", file);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/*");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //공유버튼 내용  end
 }
