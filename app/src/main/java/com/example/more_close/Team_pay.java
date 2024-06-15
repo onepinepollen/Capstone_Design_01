@@ -1,5 +1,6 @@
 package com.example.more_close;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -19,13 +21,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Team_pay extends AppCompatActivity {
 
     private List<View> personViews;
+    private List<View> menuViews;
     private TeamData teamdata;
+    private MenuData menudata;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,30 +43,40 @@ public class Team_pay extends AppCompatActivity {
         String key = intent.getStringExtra("id");
 
         LinearLayout scrollVL = findViewById(R.id.scrollViewLayout2);
+        LinearLayout scrollVL2 = findViewById(R.id.scrollViewLayout3);
 
         TextView team_name = findViewById(R.id.textView2);
-
-        EditText pay1 = findViewById(R.id.editTextNumber8);
-        EditText pay2 = findViewById(R.id.editTextNumber9);
-        EditText pay3 = findViewById(R.id.editTextNumber10);
+        TextView sum_result = findViewById(R.id.textView24);
         EditText name = findViewById(R.id.editTextTextPersonName);
+        name.setHint("이름을 입력하세요");
+
+        //계산 방식 결정
+        RadioButton rdb1 = findViewById(R.id.radioButton);
+        RadioButton rdb2 = findViewById(R.id.radioButton2);
+        RadioButton rdb3 = findViewById(R.id.radioButton3);
 
         Button btn1 = findViewById(R.id.button4); //결제버튼
         Button btn2 = findViewById(R.id.button5); //인원추가 버튼
         ImageView btn3 = findViewById(R.id.imageView5); //팀명 수정
+        ImageButton btn4 = findViewById(R.id.imageButton2); //메뉴 추가
+        ImageButton btn5 = findViewById(R.id.imageButton3); //메뉴 삭제
 
         teamdata = new TeamData(this);
         teamdata.open();
         List<Team> teamList = teamdata.getIdTeams(key);
         Team team = teamList.get(0);
 
+        menudata = new MenuData(this);
+        menudata.open();
+        List<Menu> menuList = menudata.getNameMenus(team.getName());
+
         personViews = new ArrayList<>();
-        name.setHint("이름을 입력하세요");
+        menuViews = new ArrayList<>();
 
         //로드시 데이터 불러와 화면에 표시
         team_name.setText(team.getName());
         if (team.getMember().isEmpty()){
-
+            //예외처리
         }else{
             String[] members1 = team.getMember().split(",");
             for(String member : members1){
@@ -110,6 +128,79 @@ public class Team_pay extends AppCompatActivity {
             }
         }
 
+        if(menuList.isEmpty()){
+            //예외처리
+        }else{
+            for(Menu menus : menuList) {
+                String menu = menus.getMenu();
+                String key1 = menus.getId();
+
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View menu_btn = inflater.inflate(R.layout.menu_view, null);
+                TextView menu_name = menu_btn.findViewById(R.id.textView14);
+                menu_name.setText(menu);
+                CheckBox check_box = menu_btn.findViewById(R.id.checkBox);
+
+                menuViews.add(menu_btn);
+
+                menu_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        LayoutInflater inflater = getLayoutInflater();
+                        View normalView = inflater.inflate(R.layout.popup_nomal, null);
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
+
+                        TextView popupText = normalView.findViewById(R.id.textView18);
+                        Button PositiveButton2 = normalView.findViewById(R.id.button8);
+                        Button NegativeButton2 = normalView.findViewById(R.id.button7);
+                        popupText.setText("삭제 하시겠습니까?");
+
+                        builder1.setView(normalView); // builder1에 setView를 설정합니다.
+                        AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+                        PositiveButton2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                scrollVL2.removeView(menu_btn);
+                                menudata.delMenus(String.valueOf(key1));
+                                dialog.dismiss();
+                            }
+                        });
+                        NegativeButton2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show(); // 다이얼로그 표시
+                    }
+                });
+
+                check_box.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(check_box.isChecked()){
+                            List<Menu> menu_List = menudata.getMenu(team_name.getText().toString(),menu_name.getText().toString());
+                            Menu pay = menu_List.get(0);
+                            int pay_sum = Integer.parseInt(pay.getPay());
+                            int result = Integer.parseInt(sum_result.getText().toString()) + pay_sum;
+                            sum_result.setText(Integer.toString(result));
+                        }else{
+                            List<Menu> menu_List = menudata.getMenu(team_name.getText().toString(),menu_name.getText().toString());
+                            Menu pay = menu_List.get(0);
+                            int pay_sum = Integer.parseInt(pay.getPay());
+                            int result = Integer.parseInt(sum_result.getText().toString()) - pay_sum;
+                            sum_result.setText(Integer.toString(result));
+                        }
+                    }
+                });
+
+                scrollVL2.addView(menu_btn);
+
+            }
+        }
+
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,27 +216,42 @@ public class Team_pay extends AppCompatActivity {
                         }
                     }
                 }
-                String Pay1 = pay1.getText().toString();
-                String Pay2 = pay2.getText().toString();
-                String Pay3 = pay3.getText().toString();
 
-                String[] pays = {Pay1, Pay2, Pay3};
                 int sum = 0;
 
-                for(int i = 0; i < pays.length; i++) {
-                    if(pays[i].isEmpty()){
-                    }
-                    else{
-                        sum += Integer.parseInt(pays[i]);
+                //선택된 체크박스
+                if (menuList != null && !menuList.isEmpty()){
+                    for (View menuViews :menuViews){
+                        CheckBox checkBox = menuViews.findViewById(R.id.checkBox);
+                        if (checkBox != null && checkBox.isChecked()){
+                            TextView menu = menuViews.findViewById(R.id.textView14);
+                            String menu_name = menu.getText().toString();
+                            List<Menu> menu_List = menudata.getMenu(team_name.getText().toString(),menu_name);
+                            Menu pay = menu_List.get(0);
+                            sum += Integer.parseInt(pay.getPay());
+                        }
                     }
                 }
+
                 if(switchCount == 0){
                     showPeopleErrorDialog();
-                }else{
+                }else if(sum == 0){
+                    showSumErrorDialog();
+                } else{
+                    int old_sum = sum;
                     sum = sum / switchCount;
                     int ex = sum % switchCount;
 
-                    showResultDialog(sum,ex);
+                    if(rdb1.isChecked()){
+                        //일반 계산
+                        showResultDialog(sum,ex);
+                    }else if(rdb2.isChecked()){
+                        //랜덤 몰빵
+                        showAllinDialog(sum,ex);
+                    }else {
+                        //랜덤 분배
+                        showRandomDialog(old_sum);
+                    }
                 }
             }
         });
@@ -227,6 +333,7 @@ public class Team_pay extends AppCompatActivity {
                     public void onClick(View view) {
                         String name = nameEditText.getText().toString();
                         teamdata.updateName(key,name);
+                        menudata.updateName(team_name.getText().toString(),name);
                         team_name.setText(name);
                         dialog.dismiss();
                     }
@@ -235,9 +342,147 @@ public class Team_pay extends AppCompatActivity {
 
             }
         });
+        //메뉴 추가버튼
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // AlertDialog를 생성하고 설정합니다.
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.popup_addteam, null);
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(Team_pay.this);
+
+                EditText menuEditText = dialogView.findViewById(R.id.editTextTextPersonName4);
+                EditText payEditText = dialogView.findViewById(R.id.editTextTextPersonName2);
+                menuEditText.setHint("메뉴를 입력하세요"); // 입력창에 힌트 설정
+                payEditText.setHint("가격을 입력하세요"); // 입력창에 힌트 설정
+
+                TextView text1 = dialogView.findViewById(R.id.textView16);
+                TextView text2 = dialogView.findViewById(R.id.textView17);
+                text1.setText("메뉴 이름:");
+                text2.setText("가격:");
+
+                Button PositiveButton = dialogView.findViewById(R.id.button6);
+                builder.setView(dialogView);
+
+                AlertDialog dialog = builder.create();
+
+                PositiveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String menu = menuEditText.getText().toString();
+                        String pay = payEditText.getText().toString();
+                        if (menu.isEmpty() || pay.isEmpty()) {
+                        } else {
+                            // 데이터로 메뉴 목록 생성
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View menu_btn = inflater.inflate(R.layout.menu_view, null);
+                            TextView menu_name = menu_btn.findViewById(R.id.textView14);
+                            menu_name.setText(menu);
+                            CheckBox check_box = menu_btn.findViewById(R.id.checkBox);
+
+                            //데이터 추가
+                            menuViews.add(menu_btn);
+                            long key = menudata.addMenus(team_name.getText().toString(), menu, pay);
+                            dialog.dismiss();
+                            menu_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    LayoutInflater inflater = getLayoutInflater();
+                                    View normalView = inflater.inflate(R.layout.popup_nomal, null);
+                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
+
+                                    TextView popupText = normalView.findViewById(R.id.textView18);
+                                    Button PositiveButton2 = normalView.findViewById(R.id.button8);
+                                    Button NegativeButton2 = normalView.findViewById(R.id.button7);
+                                    popupText.setText("삭제 하시겠습니까?");
+
+                                    builder1.setView(normalView); // builder1에 setView를 설정합니다.
+                                    AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+                                    PositiveButton2.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            scrollVL2.removeView(menu_btn);
+                                            menudata.delMenus(String.valueOf(key));
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    NegativeButton2.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    dialog.show(); // 다이얼로그 표시
+                                }
+                            });
+                            check_box.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if(check_box.isChecked()){
+                                        List<Menu> menu_List = menudata.getMenu(team_name.getText().toString(),menu_name.getText().toString());
+                                        Menu pay = menu_List.get(0);
+                                        int pay_sum = Integer.parseInt(pay.getPay());
+                                        int result = Integer.parseInt(sum_result.getText().toString()) + pay_sum;
+                                        sum_result.setText(Integer.toString(result));
+                                    }else{
+                                        List<Menu> menu_List = menudata.getMenu(team_name.getText().toString(),menu_name.getText().toString());
+                                        Menu pay = menu_List.get(0);
+                                        int pay_sum = Integer.parseInt(pay.getPay());
+                                        int result = Integer.parseInt(sum_result.getText().toString()) - pay_sum;
+                                        sum_result.setText(Integer.toString(result));
+                                    }
+                                }
+                            });
+
+                            scrollVL2.addView(menu_btn);
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
+
+        //메뉴 전원 삭제 버튼
+        btn5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater inflater = getLayoutInflater();
+                View normalView = inflater.inflate(R.layout.popup_nomal, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(Team_pay.this);
+
+                TextView popupText = normalView.findViewById(R.id.textView18);
+                Button PositiveButton2 = normalView.findViewById(R.id.button8);
+                Button NegativeButton2 = normalView.findViewById(R.id.button7);
+                popupText.setText("삭제 하시겠습니까?");
+
+                builder.setView(normalView); // builder1에 setView를 설정합니다.
+                AlertDialog dialog = builder.create(); // dialog 객체를 생성합니다.
+
+                PositiveButton2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        menudata.delAllMenus(team_name.getText().toString());
+                        scrollVL2.removeAllViews();
+                        dialog.dismiss();
+                    }
+                });
+                NegativeButton2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
     }
 
+    //경고 용 함수들
     private void showPeopleErrorDialog() {
         LayoutInflater inflater = getLayoutInflater();
         View basicView = inflater.inflate(R.layout.popup_basic, null);
@@ -267,6 +512,27 @@ public class Team_pay extends AppCompatActivity {
         TextView popupText = basicView.findViewById(R.id.textView20);
         Button PositiveButton2 = basicView.findViewById(R.id.button01);
         popupText.setText("이름을 적어주세요!");
+
+        builder1.setView(basicView); // builder1에 setView를 설정합니다.
+        AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+        PositiveButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss(); // 다이얼로그 닫기
+            }
+        });
+        dialog.show();
+    }
+
+    private void showSumErrorDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View basicView = inflater.inflate(R.layout.popup_basic, null);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
+
+        TextView popupText = basicView.findViewById(R.id.textView20);
+        Button PositiveButton2 = basicView.findViewById(R.id.button01);
+        popupText.setText("메뉴를 선택해 주세요!");
 
         builder1.setView(basicView); // builder1에 setView를 설정합니다.
         AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
@@ -328,5 +594,101 @@ public class Team_pay extends AppCompatActivity {
             });
             dialog.show();
         }
+    }
+
+    private void showAllinDialog(int sum, int ex){
+        if (personViews != null && !personViews.isEmpty()) {
+            List<String> names = new ArrayList<>();
+            for (View personView : personViews) {
+                Switch switchButton = personView.findViewById(R.id.switch1);
+                if (switchButton != null && switchButton.isChecked()) {
+                    TextView name = personView.findViewById(R.id.textView11);
+                    names.add(name.getText().toString());
+                }
+            }
+            if (names == null || names.isEmpty()) {
+            }
+            Random random = new Random();
+            int randomIndex = random.nextInt(names.size());
+            String allIn = names.get(randomIndex);
+
+            //팝업창 생성
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
+            LayoutInflater inflater = getLayoutInflater();
+            View basicView = inflater.inflate(R.layout.popup_basic, null);
+
+            TextView popupText = basicView.findViewById(R.id.textView20);
+            Button PositiveButton2 = basicView.findViewById(R.id.button01);
+            int result = sum + ex ;
+            popupText.setText("몰빵 당첨자는... " + allIn +"님 입니다.\n" + allIn + " : "+ result + "\n" + "나머지 분들 : " + sum);
+
+            builder1.setView(basicView); // builder1에 setView를 설정합니다.
+            AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+            PositiveButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    private void showRandomDialog(int sum){
+        List<String> names = new ArrayList<>();
+        for (View personView : personViews) {
+            Switch switchButton = personView.findViewById(R.id.switch1);
+            if (switchButton != null && switchButton.isChecked()) {
+                TextView name = personView.findViewById(R.id.textView11);
+                names.add(name.getText().toString());
+            }
+        }
+        //순위 랜덤 분배
+        List<String> rankList = new ArrayList<>(names);
+        Collections.shuffle(rankList);
+
+        //금액 차등 분배
+        int[] distribution = new int[rankList.size()];
+        int sumRanks = 0;
+        for (int i = 1; i <= rankList.size(); i++) {
+            sumRanks += i;
+        }
+        int remain = sum;
+        for (int i = 0; i < rankList.size(); i++) {
+            distribution[i] = (sum * (rankList.size() - i)) / sumRanks;
+            remain -= distribution[i];
+        }
+        // 분배 후 남은 잔액을 1위에게 추가
+        distribution[0] += remain;
+
+        //1등이 가장 많이 내는 식으로 작동한다.
+        String answer = "";
+        for(int i = 0; i < rankList.size(); i++){
+            int rank = i + 1;
+            answer += rank + "등 : " + rankList.get(i) + "(" + distribution[i] + "원)\n";
+        }
+
+        //팝업창 생성
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Team_pay.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View basicView = inflater.inflate(R.layout.popup_basic, null);
+
+        TextView popupText = basicView.findViewById(R.id.textView20);
+        Button PositiveButton2 = basicView.findViewById(R.id.button01);
+
+        popupText.setText(answer);
+
+        builder1.setView(basicView); // builder1에 setView를 설정합니다.
+        AlertDialog dialog = builder1.create(); // dialog 객체를 생성합니다.
+
+        PositiveButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
     }
 }
