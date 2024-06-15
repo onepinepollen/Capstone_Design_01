@@ -1,7 +1,10 @@
 package com.example.more_close;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,7 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Random;
 
 public class minigame06 extends AppCompatActivity {
@@ -25,6 +31,10 @@ public class minigame06 extends AppCompatActivity {
     ImageView imageView5;
     ImageView imageView6;
     ImageView imageView7;
+
+    //공유버튼 내용 start
+    private Button shareButton;
+    //공유버튼 내용 end
 
     SoundPool msound;
     int index = 0;
@@ -44,6 +54,16 @@ public class minigame06 extends AppCompatActivity {
         startminigame = findViewById(R.id.startminigame);
 
         textView = findViewById(R.id.textView);
+
+        //공유버튼 내용 start
+        shareButton = findViewById(R.id.share_button);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareScreen();
+            }
+        });
+        //공유버튼 내용 end
 
         Random random = new Random();
 
@@ -153,4 +173,33 @@ public class minigame06 extends AppCompatActivity {
 
 
     }
+    //공유버튼 내용 start
+    private void shareScreen() {
+        // Capture the screen
+        View rootView = getWindow().getDecorView().getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+        rootView.setDrawingCacheEnabled(false);
+
+        try {
+            // Save the screenshot
+            File cachePath = new File(getExternalCacheDir(), "my_images/");
+            cachePath.mkdirs();
+            File file = new File(cachePath, "image.png");
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+            // Share the screenshot
+            Uri contentUri = FileProvider.getUriForFile(this, "com.example.yourapp.fileprovider", file);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/*");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //공유버튼 내용  end
 }
