@@ -3,6 +3,8 @@ package com.example.more_close;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +22,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +40,10 @@ public class Team_pay extends AppCompatActivity {
     private TeamData teamdata;
     private MenuData menudata;
     private MemberData memberdata;
+
+    //공유버튼 내용 start
+    private Button shareButton;
+    //공유버튼 내용 end
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +70,7 @@ public class Team_pay extends AppCompatActivity {
         ImageView btn3 = findViewById(R.id.imageView5); //팀명 수정
         ImageButton btn4 = findViewById(R.id.imageButton2); //메뉴 추가
         ImageButton btn5 = findViewById(R.id.imageButton3); //메뉴 삭제
+
 
         teamdata = new TeamData(this);
         teamdata.open();
@@ -557,6 +567,15 @@ public class Team_pay extends AppCompatActivity {
             TextView popupText = normalView.findViewById(R.id.textView18);
             Button PositiveButton2 = normalView.findViewById(R.id.button8);
             Button NegativeButton2 = normalView.findViewById(R.id.button7);
+            //공유버튼 내용 start
+            Button shareButton = normalView.findViewById(R.id.share_button);
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    shareScreen();
+                }
+            });
+            //공유버튼 내용 end
             popupText.setText("한명당 지불한 금액은 " + sum + " 이며,\n"+ex+"가 남았습니다. \n미니게임 화면으로 넘어갈까요?");
 
             builder1.setView(normalView); // builder1에 setView를 설정합니다.
@@ -621,6 +640,15 @@ public class Team_pay extends AppCompatActivity {
 
             TextView popupText = basicView.findViewById(R.id.textView20);
             Button PositiveButton2 = basicView.findViewById(R.id.button01);
+            //공유버튼 내용 start
+            Button shareButton = basicView.findViewById(R.id.share_button);
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    shareScreen();
+                }
+            });
+            //공유버튼 내용 end
             int result = sum + ex ;
             popupText.setText("몰빵 당첨자는... " + allIn +"님 입니다.\n" + allIn + " : "+ result + "\n" + "나머지 분들 : " + sum);
 
@@ -678,6 +706,15 @@ public class Team_pay extends AppCompatActivity {
 
         TextView popupText = basicView.findViewById(R.id.textView20);
         Button PositiveButton2 = basicView.findViewById(R.id.button01);
+        //공유버튼 내용 start
+        Button shareButton = basicView.findViewById(R.id.share_button);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareScreen();
+            }
+        });
+        //공유버튼 내용 end
 
         popupText.setText(answer);
 
@@ -693,4 +730,34 @@ public class Team_pay extends AppCompatActivity {
         dialog.show();
 
     }
+
+    //공유버튼 내용 start
+    private void shareScreen() {
+        // Capture the screen
+        View rootView = getWindow().getDecorView().getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+        rootView.setDrawingCacheEnabled(false);
+
+        try {
+            // Save the screenshot
+            File cachePath = new File(getExternalCacheDir(), "my_images/");
+            cachePath.mkdirs();
+            File file = new File(cachePath, "image.png");
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+            // Share the screenshot
+            Uri contentUri = FileProvider.getUriForFile(this, "com.example.yourapp.fileprovider", file);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("image/*");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //공유버튼 내용  end
 }
