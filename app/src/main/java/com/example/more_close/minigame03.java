@@ -1,19 +1,17 @@
 package com.example.more_close;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.content.FileProvider;
 
 import android.widget.Button;
@@ -50,7 +48,7 @@ public class minigame03 extends AppCompatActivity {
 
         btnTest = findViewById(R.id.btnTest);
         //공유버튼 내용 start
-        shareButton = findViewById(R.id.share_button);
+        shareButton = findViewById(R.id.s_button);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,17 +1,11 @@
 package com.example.more_close;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -63,7 +57,7 @@ public class minigame05 extends AppCompatActivity {
         });
 
         //공유버튼 내용 start
-        shareButton = findViewById(R.id.share_button);
+        shareButton = findViewById(R.id.s_button);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -62,7 +62,7 @@ public class minigame04 extends AppCompatActivity {
         textView = findViewById(R.id.textView);
 
         //공유버튼 내용 start
-        shareButton = findViewById(R.id.share_button);
+        shareButton = findViewById(R.id.s_button);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

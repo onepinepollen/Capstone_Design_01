@@ -1,16 +1,15 @@
 package com.example.more_close;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,8 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -567,15 +564,6 @@ public class Team_pay extends AppCompatActivity {
             TextView popupText = normalView.findViewById(R.id.textView18);
             Button PositiveButton2 = normalView.findViewById(R.id.button8);
             Button NegativeButton2 = normalView.findViewById(R.id.button7);
-            //공유버튼 내용 start
-            Button shareButton = normalView.findViewById(R.id.share_button);
-            shareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    shareScreen();
-                }
-            });
-            //공유버튼 내용 end
             popupText.setText("한명당 지불한 금액은 " + sum + " 이며,\n"+ex+"가 남았습니다. \n미니게임 화면으로 넘어갈까요?");
 
             builder1.setView(normalView); // builder1에 setView를 설정합니다.
@@ -613,6 +601,15 @@ public class Team_pay extends AppCompatActivity {
                     dialog.dismiss(); // 다이얼로그 닫기
                 }
             });
+            //공유버튼 내용 start
+            Button shareButton = basicView.findViewById(R.id.s_button);
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    shareScreen();
+                }
+            });
+            //공유버튼 내용 end
             dialog.show();
         }
     }
@@ -641,10 +638,10 @@ public class Team_pay extends AppCompatActivity {
             TextView popupText = basicView.findViewById(R.id.textView20);
             Button PositiveButton2 = basicView.findViewById(R.id.button01);
             //공유버튼 내용 start
-            Button shareButton = basicView.findViewById(R.id.share_button);
+            Button shareButton = basicView.findViewById(R.id.s_button);
             shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     shareScreen();
                 }
             });
@@ -707,10 +704,10 @@ public class Team_pay extends AppCompatActivity {
         TextView popupText = basicView.findViewById(R.id.textView20);
         Button PositiveButton2 = basicView.findViewById(R.id.button01);
         //공유버튼 내용 start
-        Button shareButton = basicView.findViewById(R.id.share_button);
+        Button shareButton = basicView.findViewById(R.id.s_button);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 shareScreen();
             }
         });
